@@ -1,0 +1,11 @@
+{
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "eslint.rules.customizations": [
+        {
+            "rule": "*",
+            "severity": "off"
+        }
+    ],
+    "editor.formatOnSave": true
+}
