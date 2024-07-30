@@ -88,6 +88,7 @@ const ProfileScreen = () => {
     setAvatar(userData.avatar);
     setnewAvatar(userData.avatar);
     setSex(userData.gender);
+    console.log(userData);
   }, [userData]);
 
   const handleTogglePassword = () => {
@@ -105,7 +106,7 @@ const ProfileScreen = () => {
   async function updateUserInformation() {
     try {
       await axios
-        .patch(`http://192.168.233.187:9000/api/v1/users/advanced/${userData.id}`, {
+        .patch(`172.27.80.1:9000/api/v1/users/advanced/${userData.id}`, {
           username: newuserName,
           phone: newphone,
           gender: newsex,
@@ -186,55 +187,84 @@ const ProfileScreen = () => {
   return (
     <View
       style={{
-        backgroundColor: '#2a2f30',
-        padding: 10,
+        backgroundColor: 'f0f8ff',
+
         height: 800,
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
       }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'flex-end', width: '100%' }}>
-        <TouchableOpacity onPress={() => { navigation.navigate('Login'); }} style={{ width: 70, height: 40, borderRadius: 10, backgroundColor: "#2f94aa", padding: 5 }}>
-          <Text style={{ fontWeight: "bold", color: 'white' }}>
-            {t('logout')}
-            <FontAwesomeIcon style={{ color: 'white' }} icon={faDoorOpen} />
-          </Text>
-        </TouchableOpacity>
 
+      <View style={{ width: '100%', alignItems: 'center', backgroundColor: "#96C9F4", borderBottomLeftRadius: 35, borderBottomRightRadius: 35, padding: 3, opacity: 0.6 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', width: '100%' }}>
+          <TouchableOpacity onPress={() => { navigation.navigate('Login'); }}
+            style={{
+              width: 100, flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: "center",
+              height: 40, borderRadius: 10,
+              backgroundColor: "white",
+              borderWidth: 1,         // Width of the border
+              borderColor: '#000',    // Color of the border
+              borderRadius: 10,       // Optional: Rounding the corners
+              padding: 5
+            }}>
+            <Text style={{ fontWeight: "bold", color: 'black' }}>
+              {t('logout')}
+              <FontAwesomeIcon style={{ color: 'black' }} icon={faDoorOpen} />
+            </Text>
+          </TouchableOpacity>
+
+        </View>
+        <Text style={{
+          fontSize: 24,
+          fontWeight: 'bold',
+          color: '#333',
+
+          textAlign: "center"
+        }}>{userData.username ?? "Jack"}</Text>
+        <TouchableOpacity
+          style={{
+            width: 130,
+            height: 130,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: 20
+          }}
+          onPress={() => openChoseAvatar()}>
+          {avatar && (
+            <Image
+              source={{ uri: isEditMode ? newavatar : avatar }}
+              style={{ width: 120, height: 120, borderRadius: 60 }}
+            />
+
+          )}
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        style={{
-          width: 130,
-          height: 130,
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          margin: 20,
-        }}
-        onPress={() => openChoseAvatar()}>
-        {avatar && (
-          <Image
-            source={{ uri: isEditMode ? newavatar : avatar }}
-            style={{ width: 120, height: 120, borderRadius: 60 }}
-          />
-        )}
-      </TouchableOpacity>
+
       <View
         style={{
-          backgroundColor: '#3f4445',
+          backgroundColor: 'white',
           width: '90%',
           padding: 20,
-          borderRadius: 10,
+
+          borderWidth: 1,         // Width of the border
+          borderColor: '#000',    // Color of the border
+          borderRadius: 20,
           margin: 20,
         }}>
         <View
           style={{
-            width: '70%',
+            width: '90%',
             flexDirection: 'row',
             alignItems: 'center',
             margin: 10,
+            borderBottomWidth: 1,
+            padding: 3,
+            borderBottomColor: 'black'
           }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 16, color: 'white' }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 19, color: 'black', textTransform: 'uppercase' }}>
             {t('username')} :{' '}
           </Text>
           {isEditMode ? (
@@ -246,22 +276,25 @@ const ProfileScreen = () => {
               maxLength={40}
               onChangeText={text => setnewUserName(text)}
               value={newuserName}
-              style={{ fontWeight: 'bold', fontSize: 16, color: 'white' }}
+              style={{ fontWeight: 'bold', fontSize: 19, color: 'black' }}
             />
           ) : (
-            <Text style={{ fontWeight: '400', fontSize: 12, color: 'white' }}>
+            <Text style={{ fontWeight: '400', fontSize: 19, color: 'black' }}>
               {userName}
             </Text>
           )}
         </View>
         <View
           style={{
-            width: '70%',
+            width: '90%',
             flexDirection: 'row',
             alignItems: 'center',
             margin: 10,
+            borderBottomWidth: 1,
+            padding: 3,
+            borderBottomColor: 'black'
           }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 16, color: 'white' }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 19, color: 'black', textTransform: 'uppercase' }}>
             {t('phonenumber')} :
           </Text>
           {isEditMode ? (
@@ -273,23 +306,27 @@ const ProfileScreen = () => {
               maxLength={40}
               onChangeText={text => setnewPhone(text)}
               value={newphone}
-              style={{ fontWeight: 'bold', fontSize: 16, color: 'white' }}
+              style={{ fontWeight: 'bold', fontSize: 19, color: 'black' }}
             />
           ) : (
-            <Text style={{ fontWeight: '400', fontSize: 12, color: 'white' }}>
+            <Text style={{ fontWeight: '400', fontSize: 19, color: 'black' }}>
               {phone}
             </Text>
           )}
         </View>
         <View
           style={{
-            width: '70%',
+            width: '90%',
             flexDirection: 'row',
             alignItems: 'center',
             margin: 10,
+            borderBottomWidth: 1,
+            padding: 3,
+            borderBottomColor: 'black'
           }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 16, color: 'white' }}>
-            {t('gender')} :{' '}
+          <Text style={{ fontWeight: 'bold', fontSize: 19, color: 'black', textTransform: 'uppercase' }}>
+
+            living_city :
           </Text>
           {isEditMode ? (
             <TextInput
@@ -297,11 +334,67 @@ const ProfileScreen = () => {
               key={3}
               onChangeText={text => setnewSex(text)}
               placeholder="Enter text here"
-              style={{ fontWeight: 'bold', fontSize: 16, color: 'white' }}
+              style={{ fontWeight: 'bold', fontSize: 19, color: 'black' }}
             />
           ) : (
-            <Text style={{ fontWeight: '400', fontSize: 12, color: 'white' }}>
-              {sex}
+            <Text style={{ fontWeight: '400', fontSize: 19, color: 'black', width: '100%' }}>
+              {userData.location}
+            </Text>
+          )}
+        </View>
+        <View
+          style={{
+            width: '90%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            margin: 10,
+            borderBottomWidth: 1,
+            padding: 3,
+            borderBottomColor: 'black'
+          }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 19, color: 'black', textTransform: 'uppercase' }}>
+
+            Package :
+          </Text>
+          {isEditMode ? (
+            <TextInput
+              value={newsex}
+              key={3}
+              onChangeText={text => setnewSex(text)}
+              placeholder="Enter text here"
+              style={{ fontWeight: 'bold', fontSize: 19, color: 'black' }}
+            />
+          ) : (
+            <Text style={{ fontWeight: '400', fontSize: 19, color: 'black', width: '100%' }}>
+              Premium
+            </Text>
+          )}
+        </View>
+        <View
+          style={{
+            width: '90%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            margin: 10,
+            borderBottomWidth: 1,
+            padding: 3,
+            borderBottomColor: 'black'
+          }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 19, color: 'black', textTransform: 'uppercase' }}>
+
+            Role :
+          </Text>
+          {isEditMode ? (
+            <TextInput
+              value={newsex}
+              key={3}
+              onChangeText={text => setnewSex(text)}
+              placeholder="Enter text here"
+              style={{ fontWeight: 'bold', fontSize: 19, color: 'black' }}
+            />
+          ) : (
+            <Text style={{ fontWeight: '400', fontSize: 19, color: 'black', width: '100%' }}>
+              User
             </Text>
           )}
         </View>
@@ -313,24 +406,24 @@ const ProfileScreen = () => {
             margin: 10,
             justifyContent: 'space-around',
           }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 16, color: 'white' }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 19, color: 'black', textTransform: 'uppercase' }}>
             {t('phone')}:
           </Text>
           {showPhone ? (
             isEditMode ? (
               <TextInput
                 key={4}
-                style={{ fontWeight: 'bold', fontSize: 16, color: 'white' }}
+                style={{ fontWeight: 'bold', fontSize: 16, color: 'black' }}
                 value={phone}
                 onChangeText={setPhone}
               />
             ) : (
-              <Text style={{ fontWeight: '400', fontSize: 12, color: 'white' }}>
+              <Text style={{ fontWeight: '400', fontSize: 12, color: 'black' }}>
                 {phone}
               </Text>
             )
           ) : (
-            <Text style={{ fontWeight: 'bold', fontSize: 16, color: 'white' }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 16, color: 'black' }}>
               ********
             </Text>
           )}
@@ -347,7 +440,9 @@ const ProfileScreen = () => {
             />
           </View>
         </View>
+
       </View>
+
       {isEditMode && (
         <Modal visible={avatarChange} animationType="slide">
           <View
@@ -475,6 +570,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white'
   },
   profileImage: {
     width: 150,

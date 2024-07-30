@@ -42,7 +42,7 @@ const RegisterScreen = () => {
       role: 'user',
     };
     console.log("register hadle")
-    const response = await fetch(`http://192.168.233.187:9000/api/v1/users/signup`, {
+    const response = await fetch(`http://172.27.80.1:9000/api/v1/users/signup`, {
       method: 'POST',
       body: JSON.stringify(registedData),
       headers: {
@@ -53,7 +53,7 @@ const RegisterScreen = () => {
     console.log(data.status);
     if (data.status === 'success create new user') {
       Alert.alert(
-        'wrong user name or password',
+        'Create new account successfully',
         getEmailId,
         [
           { text: 'OK', onPress: () => navigation.navigate('Login') }

@@ -54,7 +54,7 @@ const MovieScreen = () => {
   async function getPlaylistForMovie(id) {
     try {
       const response = await axios.get(
-        `http://192.168.233.187:9000/playlists/all/${id}`,
+        `http://172.27.80.1:9000/playlists/all/${id}`,
       );
       setPlaylist(response.data[0].movieArr);
       setPlaylistId(response.data[0]._id);
@@ -70,7 +70,7 @@ const MovieScreen = () => {
 
   async function updatePlaylist(movieId) {
     try {
-      const response = await axios.put(`http://192.168.233.187:9000/playlists`, {
+      const response = await axios.put(`http://172.27.80.1:9000/playlists`, {
         playlistId: playlistId,
         movieArr: checkedItems,
       });
@@ -89,7 +89,7 @@ const MovieScreen = () => {
   async function getRatingListForMovie(id) {
     try {
       const response = await axios.get(
-        `http://192.168.233.187:9000/rating/getfull/${id}`,
+        `http://172.27.80.1:9000/rating/getfull/${id}`,
       );
       setRatedList(response.data);
       setRatedListCheckBox(response.data);

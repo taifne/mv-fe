@@ -72,7 +72,7 @@ const MovieDetailScreen = ({ route, navigation }) => {
   // }
   async function createComment(conversation) {
     try {
-      const response = await axios.post(`http://192.168.233.187:9000/comments`, {
+      const response = await axios.post(`http://172.27.80.1:9000/comments`, {
         movieId: movie._id,
         conversation: [{ user: userData.id, text: comment }],
       });
@@ -86,7 +86,7 @@ const MovieDetailScreen = ({ route, navigation }) => {
   async function getCommentsForMovie(movieId) {
     try {
       const response = await axios.get(
-        `http://192.168.233.187:9000/comments/${movieId}`,
+        `http://172.27.80.1:9000/comments/${movieId}`,
       );
       setCommentList(response.data);
 
@@ -99,7 +99,7 @@ const MovieDetailScreen = ({ route, navigation }) => {
   async function getRatingForMovie(movieId) {
     try {
       const response = await axios.get(
-        `http://192.168.233.187:9000/rating/${userData.id}/${movieId}`,
+        `http://172.27.80.1:9000/rating/${userData.id}/${movieId}`,
       );
       setRating(response.data.point);
       setRatingId(response.data._id);
@@ -109,7 +109,7 @@ const MovieDetailScreen = ({ route, navigation }) => {
   }
   async function updateRatingForMovie(movieId) {
     try {
-      const response = await axios.put(`http://192.168.233.187:9000/rating`, {
+      const response = await axios.put(`http://172.27.80.1:9000/rating`, {
         ratingId: ratingId,
         point: rating,
       });
@@ -120,9 +120,9 @@ const MovieDetailScreen = ({ route, navigation }) => {
   }
   async function getPlaylistForMovie(movieId) {
     try {
-      console.log(`http://192.168.233.187:9000/rating/${userData.id}/${movieId}`);
+
       const response = await axios.get(
-        `http://192.168.1.9:9000/playlists/${userData.id}`,
+        `http://172.27.80.1:9000/playlists/${userData.id}`,
       );
       setPlaylistArr(response.data.movieArr);
 
@@ -134,7 +134,7 @@ const MovieDetailScreen = ({ route, navigation }) => {
   async function updatePLaylistForMovie(cc) {
     try {
       setPlaylistArr(cc);
-      const response = await axios.put(`http://192.168.233.187:9000/playlists`, {
+      const response = await axios.put(`http://172.27.80.1:9000/playlists`, {
         playlistId: playlistId,
         movieArr: cc,
       });
@@ -146,7 +146,7 @@ const MovieDetailScreen = ({ route, navigation }) => {
   // Delete a comment
   async function deleteComment(commentId) {
     try {
-      await axios.delete(`http://192.168.233.187:9000/comments/${commentId}`);
+      await axios.delete(`http://172.27.80.1:9000/comments/${commentId}`);
       return 'Comment deleted';
     } catch (error) {
       throw new Error(error.response.data.message);
@@ -171,12 +171,20 @@ const MovieDetailScreen = ({ route, navigation }) => {
   };
 
   useEffect(() => {
+
     const fetchData = async () => {
       try {
+
+        // let cc = await axios.get(
+        //   `http://172.29.144.1:9000/redirect/hls/KTawU4S`,
+        //   {
+        //     headers: { myaxiosfetch: '123' },
+        //   },
+        // );
         const responses = await Promise.all(
           movie.videos.map(video =>
             axios.get(
-              `http://192.168.233.187:9000/redirect/hls/` + video.videoname,
+              `http://172.27.80.1:9000/redirect/hls/` + video.videoname,
               {
                 headers: { myaxiosfetch: '123' },
               },
@@ -186,9 +194,10 @@ const MovieDetailScreen = ({ route, navigation }) => {
         const videoDataArray = responses.map(
           response => response.data.subserverurl,
         );
+        console.log(videoDataArray);
         setData(videoDataArray);
         setSrc(videoDataArray[0]);
-        console.log(src);
+
       } catch (error) {
         console.error('Error fetching video data:', error);
       }

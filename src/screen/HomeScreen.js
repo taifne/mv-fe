@@ -47,7 +47,7 @@ const HomeScreen = ({ route, navigation }) => {
   }, []);
   useEffect(() => {
     axios
-      .get(`http://192.168.233.187:9000/api/v1/info`)
+      .get(`http://172.27.80.1:9000/api/v1/info`)
       .then(function (response) {
         setData(response.data.data);
       })

@@ -41,9 +41,9 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const handleLogin = async () => {
     try {
-      console.log(`http://192.168.233.187:9000/api/v1/users/signin`);
+      console.log(`http://172.27.80.1:9000/api/v1/users/signin`);
       const response = await axios.post(
-        `http://192.168.233.187:9000/api/v1/users/signin`,
+        `http://172.27.80.1:9000/api/v1/users/signin`,
         {
           account: getEmailId,
           password: getPassword,
